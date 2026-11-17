@@ -392,8 +392,9 @@ document.addEventListener('click',e=>{
 const BASE_W=800, BASE_H=400;   // board coordinates (scaled to fit the box)
 
 // ✏️ your stickers: src = image path, x/y = position on the 800×400 board, w = width, angle = tilt
+// add photo:true ONLY for real photos (white polaroid border) — on transparent PNGs it draws a white box
 const STICKERS=[
-  {src:'media/heart-brooch.png',  x:170, y:170, w:190, angle:-6, photo:true},
+  {src:'media/heart-brooch.png',  x:170, y:170, w:190, angle:-6},
 ];
 
 let board;
