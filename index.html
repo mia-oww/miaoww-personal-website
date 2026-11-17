@@ -589,8 +589,8 @@ performance across precision, recall, and F1-score.</p>
         <section class="view" id="v-guest">
           <div class="sec-title">Guestbook · 방명록 <small>LIVRE D'OR</small></div>
           <form class="gb-form" id="gbForm">
-            <input id="gbName" placeholder="이름" maxlength="12" required>
-            <textarea id="gbMsg" placeholder="일촌평 남겨주세요 ~ ♡ (laissez un mot!)" maxlength="140" required></textarea>
+            <input id="gbName" placeholder="이름" maxlength="20" required>
+            <textarea id="gbMsg" placeholder="일촌평 남겨주세요 ~ ♡ (laissez un mot!)" maxlength="300" required></textarea>
             <button class="btn" type="submit">확인</button>
           </form>
           <div id="gbList" style="display:flex;flex-direction:column;gap:10px"></div>
@@ -634,10 +634,32 @@ performance across precision, recall, and F1-score.</p>
 
 
 
-/* ---------- counters ---------- */
-let today=Math.floor(Math.random()*40)+1200;
-const tEl=document.getElementById('today');
-(function tick(){tEl.textContent=today; today+=Math.random()<.3?1:0; setTimeout(tick,1500)})();
+/* ---------- Supabase ---------- */
+const SUPABASE_URL='https://qjjuralcieaalrgawfuy.supabase.co';   // ✏️ Project Settings → API
+const SUPABASE_KEY='sb_publishable_5xQLxT6CwliKWUJI-bVZ8A_583hiyi1';       // ✏️ the public one, NOT service_role
+
+async function rpc(fn,body){
+  const r=await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`,{
+    method:'POST',
+    headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify(body||{})
+  });
+  const text=await r.text();
+  if(!r.ok){ let msg='something went wrong'; try{msg=JSON.parse(text).message||msg}catch(e){} throw new Error(msg); }
+  return text?JSON.parse(text):null;
+}
+
+/* ---------- real visitor counter ---------- */
+(async()=>{
+  const dayKey='visited-'+new Date().toDateString();
+  let firstToday=true;
+  try{ firstToday=!localStorage.getItem(dayKey); localStorage.setItem(dayKey,'1'); }catch(e){}
+  try{
+    const {today,total}=await rpc('record_visit',{do_count:firstToday});
+    document.getElementById('today').textContent=today.toLocaleString();
+    document.getElementById('total').textContent=total.toLocaleString();
+  }catch(e){ /* counter offline — leave placeholder */ }
+})();
 
 /* ---------- tabs ---------- */
 document.getElementById('tabs').addEventListener('click',e=>{
@@ -704,29 +726,45 @@ title.textContent='♪ '+SONGS[0].t+' ♪';
 const pl=document.getElementById('playlist');
 SONGS.forEach((s,i)=>{const li=document.createElement('li');li.textContent=`${i+1}. ${s.t}`;li.onclick=()=>{setSong(i);play()};pl.appendChild(li)});
 /* ---------- dotori ---------- */
-let acorn=30; document.getElementById('dotori').onclick=()=>{acorn++;document.getElementById('acorn').textContent=acorn};
+let acorn=30; const dotori=document.getElementById('dotori');
+if(dotori) dotori.onclick=()=>{acorn++;document.getElementById('acorn').textContent=acorn};
 
-/* ---------- guestbook ---------- */
-const KEY='petitjournal-gb';
-const GB_ICON='winter.jpeg';   // ✏️ EDIT ME — small picture next to each guestbook message
-let gb=[{n:'수아',m:'미아야~ 미니홈피 너무 예쁘다 ♡ 자주 놀러올게!',d:'2026.11.15'},{n:'Camille',m:'Trop mignon! 🥐 (완전 귀여워!)',d:'2026.11.14'}];
-try{const s=JSON.parse(localStorage.getItem(KEY));if(Array.isArray(s))gb=s}catch(e){}
+/* ---------- guestbook (shared, Supabase) ---------- */
+const GB_ICON='media/Winter.jpeg';   // ✏️ small picture next to each message
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function renderGB(){
-  document.getElementById('gbList').innerHTML=gb.map((g,i)=>`
-    <article class="gb-entry"><header><span>No.${gb.length-i} &nbsp; ${esc(g.n)}</span><span>${esc(g.d)}</span></header>
-    <div><img src="${GB_ICON}" alt="" style="width:32px;height:auto;flex-shrink:0;">${esc(g.m)}</div></article>`).join('');
-  const count=document.getElementById('gbCount');
-  if(count) count.textContent=gb.length+'/48';
+const fmtDate=iso=>{const d=new Date(iso);return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`};
+
+function renderGB(list){
+  const box=document.getElementById('gbList');
+  if(!list.length){ box.innerHTML='<p style="font-size:16px;color:#b07a90">no messages yet ~ be the first! ♡</p>'; return; }
+  box.innerHTML=list.map((g,i)=>`
+    <article class="gb-entry"><header><span>No.${list.length-i} &nbsp; ${esc(g.name)}</span><span>${fmtDate(g.created_at)}</span></header>
+    <div><img src="${GB_ICON}" alt="" style="width:32px;height:auto;flex-shrink:0;">${esc(g.message)}</div></article>`).join('');
 }
-document.getElementById('gbForm').onsubmit=e=>{
+
+async function loadGB(){
+  try{ renderGB(await rpc('get_comments')); }
+  catch(e){ document.getElementById('gbList').innerHTML='<p style="font-size:16px;color:#b07a90">guestbook is sleeping right now ~ try again later</p>'; }
+}
+
+document.getElementById('gbForm').onsubmit=async e=>{
   e.preventDefault();
-  const d=new Date(), ds=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
-  gb.unshift({n:gbName.value.trim(),m:gbMsg.value.trim(),d:ds});
-  try{localStorage.setItem(KEY,JSON.stringify(gb))}catch(e){}
-  gbMsg.value=''; renderGB();
+  const btn=e.target.querySelector('button');
+  const old=btn.textContent;
+  btn.disabled=true; btn.textContent='...';
+  try{
+    await rpc('add_comment',{p_name:gbName.value.trim(),p_message:gbMsg.value.trim()});
+    gbMsg.value='';
+    await loadGB();
+    btn.textContent='감사! ♡';
+  }catch(err){
+    btn.textContent='앗! retry';
+    console.warn(err.message);
+  }
+  setTimeout(()=>{btn.textContent=old;btn.disabled=false},1500);
 };
-renderGB();
+
+loadGB();
 </script>
 </body>
 </html>
