@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Gaegu:wght@400;700&family=Pinyon+Script&family=Playfair+Display:ital@1&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Gaegu:wght@400;700&family=Pinyon+Script&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♡</text></svg>">
 <style>
 
   /* ============================================================
@@ -16,7 +17,8 @@
      If the image can't load, the pink polka-dot pattern shows instead.
      ============================================================ */
   :root{
-    --skin-image: url('media/whitebg.jpg'); 
+    --skin-image: url('media/whitebg.jpg');
+    /*--skin-image: None; */
     --skin-size: cover;        /* cover = fill the area | auto = tile/repeat it */
     --skin-repeat: no-repeat;  /* use repeat if you want it tiled */
     --pink:#f7a8c4; --pink-deep:#e8638f; --pink-soft:#ffe4ee; --cream:#fffaf3;
@@ -55,6 +57,11 @@
 .skill-tags span{font-family:var(--pixel);font-size:11px;padding:2px 8px;border-radius:10px;
   border:1px dashed var(--pink);background:#fff8fb;color:var(--ink)}
 .skill-tags span:hover{background:var(--pink-soft)}
+
+.site-header{position:absolute;top:-14px;left:50%;transform:translateX(-50%);z-index:20;
+  display:flex;flex-direction:column;align-items:center;pointer-events:none}
+.site-header a{pointer-events:auto}
+
 
 /* glow when jumping to a diary entry */
 .diary-card.flash{animation:flash 1.6s ease}
@@ -261,6 +268,10 @@
 
   .see-all{font-family:var(--pixel);font-size:11px;color:var(--pink-deep);cursor:pointer;margin-top:4px}
   .see-all:hover{text-decoration:underline}
+
+  .site-footer{position:absolute;bottom:-55px;left:50%;transform:translateX(-50%);z-index:20;
+  display:flex;flex-direction:column;align-items:center;pointer-events:none}
+  .site-footer a{pointer-events:auto}
   
 
   @media (max-width:900px){
@@ -326,12 +337,17 @@ document.addEventListener('click',e=>{
 <div class="browser">
   <div class="titlebar">
     <span class="ico"></span>
-    <span>http://mias-blog.vercel — 블로그 ♡ </span>
+    <span>http://mias-blog.vercel.app — 블로그 ♡ </span>
     <div class="btns"><span>_</span><span>□</span><span>×</span></div>
   </div>
 
   <div class="stage">
     <!-- between binder and other thing-->
+     <div class="site-header">
+    <a href="https://www.glitter-graphics.com" target="_blank">
+      <img src="https://dl4.glitter-graphics.net/pub/1247/1247634ugjywbxzzj.gif" width="450" height="98" alt="header" style="border:0;display:block;">
+    </a>
+  </div>
     <div class="scallop">
 
       <!-- LEFT -->
@@ -501,8 +517,8 @@ document.addEventListener('click',e=>{
 
     <article class="proj">
       <div class="proj-top">
-        <!--<span class="proj-role">Software Engineer</span> -->
-        <span class="proj-date">June-August 2026</span>
+        --<span class="proj-role">CS 470 Data Mining</span> 
+        <span class="proj-date">January-April 2026</span>
       </div>
       <h3 class="proj-title">Reddit Verdict Classifier </h3>
       <p class="proj-desc">Trained a Logistic Regression classifier on 11,662 Reddit posts using TF-IDF vectorization and bigram feature
@@ -630,6 +646,11 @@ performance across precision, recall, and F1-score.</p>
       </aside>
     </div>
     <p class="footer-quote">무에서 유를 창조하는 <em>magie</em>, 그게 바로 제가 코드를 쓰는 이유입니다. ♡</p>
+  <div class="site-footer">
+  <a href="https://www.glitter-graphics.com" target="_blank">
+    <img src="https://dl4.glitter-graphics.net/pub/1247/1247634ugjywbxzzj.gif" width="450" alt="footer" style="border:0;display:block;">
+  </a>
+</div>
   </div>
   <div class="statusbar"><span>완료</span><span>인터넷</span></div>
 </div>
