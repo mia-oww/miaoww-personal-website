@@ -730,7 +730,6 @@ let acorn=30; const dotori=document.getElementById('dotori');
 if(dotori) dotori.onclick=()=>{acorn++;document.getElementById('acorn').textContent=acorn};
 
 /* ---------- guestbook (shared, Supabase) ---------- */
-const GB_ICON='media/Winter.jpeg';   // ✏️ small picture next to each message
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmtDate=iso=>{const d=new Date(iso);return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`};
 
@@ -739,7 +738,7 @@ function renderGB(list){
   if(!list.length){ box.innerHTML='<p style="font-size:16px;color:#b07a90">no messages yet ~ be the first! ♡</p>'; return; }
   box.innerHTML=list.map((g,i)=>`
     <article class="gb-entry"><header><span>No.${list.length-i} &nbsp; ${esc(g.name)}</span><span>${fmtDate(g.created_at)}</span></header>
-    <div><img src="${GB_ICON}" alt="" style="width:32px;height:auto;flex-shrink:0;">${esc(g.message)}</div></article>`).join('');
+    <div>♡ ${esc(g.message)}</div></article>`).join('');
 }
 
 async function loadGB(){
