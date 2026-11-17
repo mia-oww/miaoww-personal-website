@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mia's blog ♡ 블로그</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Gaegu:wght@400;700&family=Pinyon+Script&family=Playfair+Display:ital@1&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Gaegu:wght@400;700&family=Pinyon+Script&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+
+  /* ============================================================
+     ✏️ EDIT ME — SKIN (the area around the white binder)
+     Put any image URL or local file path inside url('...').
+     e.g. url('images/lace-skin.jpg') or url('https://.../skin.gif')
+     If the image can't load, the pink polka-dot pattern shows instead.
+     ============================================================ */
+  :root{
+    /*--skin-image: url('media/whitebg.jpg'); */
+    --skin-size: cover;        /* cover = fill the area | auto = tile/repeat it */
+    --skin-repeat: no-repeat;  /* use repeat if you want it tiled */
+    --pink:#f7a8c4; --pink-deep:#e8638f; --pink-soft:#ffe4ee; --cream:#fffaf3;
+    --navy:#2b3a67; --sky:#bfe3f5; --sky-deep:#5aa9d6; --mint:#c9ecd9;
+    --butter:#ffe9a8; --ink:#5a4a52; --line:#e9d6de;
+    --pixel:'DotGothic16', monospace; --hand:'Gaegu', cursive;
+    --script:'Pinyon Script', cursive; --serif:'Playfair Display', serif;
+
+    /* scrollable areas */
+/* scrollable areas */
+.projects-scroll,.diary-scroll,.profile-scroll{display:flex;flex-direction:column;gap:14px}
+.projects-scroll,.diary-scroll,.profile-scroll,.photos{max-height:620px;overflow-y:auto;padding:12px 8px 4px 2px}
+.projects-scroll::-webkit-scrollbar,.diary-scroll::-webkit-scrollbar,.profile-scroll::-webkit-scrollbar,.photos::-webkit-scrollbar{width:8px}
+.projects-scroll::-webkit-scrollbar-thumb,.diary-scroll::-webkit-scrollbar-thumb,.profile-scroll::-webkit-scrollbar-thumb,.photos::-webkit-scrollbar-thumb{background:var(--pink);border-radius:8px}
+.projects-scroll::-webkit-scrollbar-track,.diary-scroll::-webkit-scrollbar-track,.profile-scroll::-webkit-scrollbar-track,.photos::-webkit-scrollbar-track{background:var(--pink-soft);border-radius:8px}
+/* project cards */
+.proj{border:2px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff;
+  box-shadow:3px 3px 0 var(--pink-soft);transition:.2s}
+.proj:hover{transform:translateY(-2px);box-shadow:4px 5px 0 var(--pink)}
+.proj-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.proj-role{font-family:var(--pixel);font-size:11px;color:#fff;background:var(--sky-deep);padding:2px 8px;border-radius:10px}
+.proj-date{font-family:var(--serif);font-style:italic;font-size:13px;color:#b07a90}
+.proj-title{font-family:var(--hand);font-size:24px;color:var(--pink-deep);margin:6px 0 4px}
+.proj-img{width:100%;max-height:200px;object-fit:cover;border-radius:8px;border:1px solid var(--line);margin:4px 0}
+.proj-desc{font-size:17px;line-height:1.35}
+.proj-tags{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.proj-tags span{font-family:var(--pixel);font-size:10px;padding:2px 7px;border:1px dashed var(--pink);border-radius:8px;color:var(--pink-deep);background:#fff8fb}
+.proj-links{display:flex;gap:8px;flex-wrap:wrap}
+.proj-btn{font-family:var(--hand);font-size:15px;padding:3px 12px;border-radius:16px;border:2px solid var(--pink-deep);
+  background:#fff;color:var(--pink-deep);cursor:pointer;text-decoration:none}
+.proj-btn:hover{background:var(--pink-deep);color:#fff}
+
+.skill-group{margin-bottom:10px}
+.skill-label{display:block;font-family:var(--serif);font-style:italic;font-size:14px;color:var(--pink-deep);margin-bottom:4px}
+.skill-tags{display:flex;flex-wrap:wrap;gap:5px}
+.skill-tags span{font-family:var(--pixel);font-size:11px;padding:2px 8px;border-radius:10px;
+  border:1px dashed var(--pink);background:#fff8fb;color:var(--ink)}
+.skill-tags span:hover{background:var(--pink-soft)}
+
+/* glow when jumping to a diary entry */
+.diary-card.flash{animation:flash 1.6s ease}
+@keyframes flash{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px var(--pink),0 0 18px var(--pink)}}
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    min-height:100vh; font-family:var(--hand); color:var(--ink);
+    background:
+      radial-gradient(circle,#fff 2.2px,transparent 2.6px) 0 0/18px 18px,
+      linear-gradient(180deg,#ffd6e6 0%,#fbe3ef 45%,#dff1fb 100%);
+    overflow-x:hidden; padding:40px 16px 60px;
+  }
+  /* falling petals */
+  .petal{position:fixed;top:-30px;pointer-events:none;z-index:0;opacity:1;animation:fall linear forwards}
+  @keyframes fall{to{transform:translate(var(--dx),110vh) rotate(540deg)}}
+
+  /* window chrome (retro browser) */
+  .browser{
+    position:relative;z-index:1;max-width:1200px;margin:0 auto;
+    background:#fff;border:2px solid #9ab7d8;border-radius:6px;
+    box-shadow:6px 8px 0 rgba(232,99,143,.18),0 20px 50px rgba(90,74,82,.15);
+  }
+  .titlebar{
+    display:flex;align-items:center;gap:8px;padding:5px 8px;
+    background:linear-gradient(#7fb0e6,#3d74c4);color:#fff;font-family:var(--pixel);font-size:13px;
+    border-radius:4px 4px 0 0;
+  }
+  .titlebar .ico{width:16px;height:16px;border-radius:50%;background:radial-gradient(#fff 30%,#ffb3cb 31%)}
+  .titlebar .btns{margin-left:auto;display:flex;gap:3px}
+  .titlebar .btns span{width:20px;height:18px;border:1px solid #fff;border-radius:3px;background:linear-gradient(#a8ccf0,#5b8fd6);font-size:11px;display:grid;place-items:center}
+  .titlebar .btns span:last-child{background:linear-gradient(#f5a38b,#d9472b)}
+
+  /* pastel stage with polka frame */
+  .stage{
+    position:relative;padding:34px 30px 30px;
+    background:
+      var(--skin-image) center/var(--skin-size) var(--skin-repeat),
+      radial-gradient(circle,#fff 3px,transparent 3.5px) 0 0/16px 16px,
+      var(--pink);
+    border-radius:0 0 4px 4px;
+  }
+  .stage::before{ /* inner lace border */
+    content:"";position:absolute;inset:14px;border-radius:14px;pointer-events:none;
+    background:radial-gradient(circle,#8a6a5a 1.4px,transparent 1.8px) 0 0/9px 9px;
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;padding:5px;
+  }
+  .scallop{ /* inner cream area */
+    position:relative;background:var(--cream);border-radius:12px;padding:22px 22px 26px;
+    display:grid; grid-template-columns:220px 1fr 260px;
+  }
+
+  /* binder book */
+  .book{display:contents}
+  .panel{
+    background:#fff;border:2px solid var(--line);border-radius:14px;position:relative;
+    box-shadow:inset 0 0 0 5px #fbf3f6;
+  }
+  .left{padding:16px 16px 18px;display:flex;flex-direction:column;gap:12px}
+  .rings{position:absolute;right:-22px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around;z-index:3}
+  .rings span{width:30px;height:12px;border-radius:8px;background:linear-gradient(#fff,#cfcfd6);border:1px solid #b8b8c4;box-shadow:0 2px 0 rgba(0,0,0,.08)}
+
+  .counter{font-family:var(--pixel);font-size:12px;text-align:center;letter-spacing:1px}
+  .counter b{color:#e14d4d;font-weight:normal}
+  .avatar-box{
+    border:1px solid var(--line);border-radius:8px;padding:12px;display:grid;place-items:center;
+    background:repeating-linear-gradient(45deg,#fff 0 8px,#fff4f8 8px 16px);
+    height:190px;position:relative;overflow:hidden;
+  }
+  .avatar-box .bonjour{position:absolute;top:6px;left:8px;font-family:var(--script);font-size:22px;color:var(--pink-deep);transform:rotate(-8deg)}
+  canvas.pixel{image-rendering:pixelated}
+  .mood{
+    display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:6px;padding:5px 8px;
+    font-family:var(--pixel);font-size:11px;color:var(--sky-deep);
+  }
+  .mood select{margin-left:auto;font-family:var(--hand);font-size:16px;border:none;background:transparent;color:var(--ink);cursor:pointer}
+  .intro{font-size:18px;line-height:1.25;min-height:84px;white-space:pre-line}
+  .intro .fr{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--pink-deep)}
+  .history{font-family:var(--pixel);font-size:13px;color:#c58aa0;border-bottom:1px dashed var(--line);padding-bottom:3px}
+.name{font-family:var(--hand);font-weight:700;font-size:22px;color:var(--navy);margin-bottom:8px}
+.name small{display:block;margin-top:6px;line-height:1.4;font-family:var(--pixel);font-size:11px;font-weight:normal;color:#6539dd}
+.name a{color:inherit;text-decoration:none}
+.name a:hover{color:var(--pink-deep);text-decoration:underline}
+  .ilchon{display:flex;flex-direction:column;gap:4px}
+  .ilchon .tabs{display:flex;gap:2px}
+  .ilchon .tabs span{font-size:15px;padding:2px 12px;border:1px solid var(--line);border-bottom:none;border-radius:6px 6px 0 0;background:#fff}
+  .ilchon .tabs span.on{background:var(--sky)}
+  .ilchon select{width:100%;padding:5px;border:2px solid var(--sky-deep);border-radius:4px;font-family:var(--hand);font-size:16px;background:#eaf6fd;cursor:pointer}
+
+  /* main */
+  .main{padding:16px 20px 18px;display:flex;flex-direction:column;gap:12px;min-height:560px}
+  .main-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--pink-soft);padding-bottom:6px}
+  .main-head h1{font-family:var(--hand);font-size:26px;white-space:nowrap;color:var(--sky-deep);font-weight:700}
+  .main-head h1 em{font-family:var(--script);font-style:normal;color:var(--pink-deep);font-size:30px;margin-left:6px}
+  .main-head .url{font-family:var(--pixel);font-size:10px;color:#999;white-space:nowrap}
+  .main-head .fav{font-family:var(--pixel);font-size:10px;color:#e14d4d;display:block;text-align:right;cursor:pointer}
+
+  .view{display:none;animation:pop .35s ease}
+  .view.on{display:flex;flex-direction:column;gap:12px}
+  @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+
+  .news-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .sec-title{font-family:var(--hand);font-weight:700;font-size:19px;color:var(--sky-deep)}
+  .sec-title small{font-family:var(--pixel);font-size:9px;color:#aaa;font-weight:normal;margin-left:4px;letter-spacing:1px}
+  .news li{list-style:none;font-size:17px;padding:1px 0;color:var(--ink);cursor:pointer}
+  .news li::before{content:"· ";color:var(--pink-deep)}
+  .news li:hover{color:var(--pink-deep)}
+  .stats{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);font-size:16px}
+  .stats div{white-space:nowrap;padding:3px 8px;border:1px solid #f4eaee;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+  .stats div:hover{background:var(--pink-soft)}
+  .stats .n{font-family:var(--pixel);font-size:11px;color:#888}
+  .stats .new{display:inline-block;width:12px;height:12px;background:#ff9d3c;border-radius:2px;font-size:8px;color:#fff;text-align:center;line-height:12px;font-family:var(--pixel);margin-left:4px}
+
+  .room-wrap{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:linear-gradient(#f2f9fd,#fff)}
+  .room-slot{position:relative;aspect-ratio:2/1;display:grid;place-items:center;background:
+      repeating-linear-gradient(45deg,#fff 0 10px,#fff4f8 10px 20px)}
+  .room-slot .ph{font-family:var(--hand);font-size:18px;color:#c58aa0;text-align:center;line-height:1.3}
+  .room-slot .ph small{font-family:var(--pixel);font-size:11px;color:#bbb}
+  .room-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;image-rendering:auto}
+  .room-bar{display:flex;justify-content:space-between;padding:4px 10px;font-size:15px;border-top:1px solid var(--line);background:#fbfbfd}
+  .room-bar span{cursor:pointer}
+  .room-bar span:hover{color:var(--pink-deep)}
+
+  .friends{border-top:1px dashed var(--line);padding-top:6px}
+  .friends p{font-size:16px;padding:2px 0}
+  .friends p b{color:var(--sky-deep)}
+  .friends p .fr{font-family:var(--serif);font-style:italic;font-size:13px;color:#b07a90}
+
+  /* diary */
+  .diary-card{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:
+    repeating-linear-gradient(#fff 0 27px,#f6e3ea 27px 28px);font-size:19px;line-height:28px;position:relative}
+  .diary-card .date{font-family:var(--serif);font-style:italic;color:var(--pink-deep);font-size:15px}
+  .diary-card .stamp{position:absolute;right:14px;top:10px;font-family:var(--script);font-size:26px;color:var(--sky-deep);transform:rotate(8deg);opacity:.8}
+
+  /* guestbook */
+  .gb-form{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:10px;background:#fff8fb}
+  .gb-form textarea{flex:1;height:60px;resize:none;border:1px solid var(--line);border-radius:6px;padding:6px;font-family:var(--hand);font-size:17px}
+  .gb-form input{width:100px;border:1px solid var(--line);border-radius:6px;padding:5px;font-family:var(--hand);font-size:16px}
+  .btn{font-family:var(--hand);font-size:17px;padding:4px 14px;border-radius:20px;border:2px solid var(--pink-deep);background:#fff;color:var(--pink-deep);cursor:pointer}
+  .btn:hover{background:var(--pink-deep);color:#fff}
+  .gb-entry{border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .gb-entry header{background:var(--pink-soft);padding:3px 10px;font-family:var(--pixel);font-size:11px;display:flex;justify-content:space-between}
+  .gb-entry div{padding:8px 10px;font-size:17px;display:flex;gap:10px;align-items:center}
+
+  /* photos */
+  .photos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .polaroid{background:#fff;padding:8px 8px 26px;box-shadow:0 3px 10px rgba(0,0,0,.1);transform:rotate(var(--r));transition:.2s;position:relative;cursor:pointer}
+  .polaroid:hover{transform:rotate(0) scale(1.04);z-index:2}
+  .polaroid .img{height:110px;border-radius:2px;display:grid;place-items:center;font-size:44px}
+  .polaroid p{position:absolute;bottom:4px;left:0;right:0;text-align:center;font-family:'Nanum Pen Script',cursive;font-size:18px;color:var(--ink)}
+  .polaroid::before{content:"";position:absolute;top:-8px;left:50%;width:50px;height:16px;margin-left:-25px;background:rgba(247,168,196,.6);transform:rotate(-3deg)}
+
+  /* profile */
+  .prof{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:19px}
+  .prof dt{color:var(--sky-deep);font-weight:700}
+  .prof dd .fr{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--pink-deep)}
+
+  .profile-pic{max-width:100%;max-height:100%;object-fit:contain;display:block}
+
+  /* side tabs */
+  .side-tabs{position:absolute;right:-74px;top:96px;display:flex;flex-direction:column;gap:5px;z-index:4}
+  .side-tabs button{
+    width:74px;padding:8px 0;border:none;cursor:pointer;font-family:var(--hand);font-size:17px;font-weight:700;color:#fff;
+    background:#f8d7fc;border-radius:0 10px 10px 0;box-shadow:2px 2px 0 rgba(0,0,0,.08);transition:.15s;
+  }
+  .side-tabs button:hover{padding-left:8px}
+  .side-tabs button.on{background:#fff;color:#e3b3ea;border:2px solid #d490dd;border-left:none}
+
+  /* right column */
+  .scallop>*{min-width:0}
+  .right{display:flex;flex-direction:column;gap:12px;padding-left:84px}
+  .bgm{background:#fff;border:2px solid var(--line);border-radius:10px;padding:8px 10px;font-size:15px}
+  .bgm .lbl{font-family:var(--pixel);font-size:10px;color:var(--sky-deep);display:flex;align-items:center;gap:4px}
+  .eq{display:inline-flex;gap:2px;align-items:flex-end;height:12px;margin-left:auto}
+  .eq i{width:3px;background:#e14d4d;height:3px}
+  .playing .eq i{animation:eq .6s infinite alternate}
+  .eq i:nth-child(2){animation-delay:.15s}.eq i:nth-child(3){animation-delay:.3s}.eq i:nth-child(4){animation-delay:.45s}
+  @keyframes eq{to{height:12px}}
+  .marquee{overflow:hidden;white-space:nowrap;margin:4px 0}
+  .marquee span{display:inline-block;padding-left:100%;animation:mq 10s linear infinite;font-family:var(--hand)}
+  @keyframes mq{to{transform:translateX(-100%)}}
+  .bgm .ctrl{display:flex;gap:4px}
+  .bgm .ctrl button{flex:1;border:1px solid var(--line);background:#fff8fb;border-radius:4px;cursor:pointer;font-size:12px;padding:2px}
+  .bgm .ctrl button:hover{background:var(--pink-soft)}
+  .bars{background:#fff;border:2px solid var(--line);border-radius:10px;padding:8px 10px;font-size:14px}
+  .bars .row{display:grid;grid-template-columns:62px 1fr 28px;align-items:center;gap:4px;padding:1px 0}
+  .bars .bar{height:7px;background:#eee;border-radius:4px;overflow:hidden}
+  .bars .bar i{display:block;height:100%;border-radius:4px}
+  .bars .num{font-family:var(--pixel);font-size:10px;text-align:right}
+  .quick button{width:100%;padding:5px;border:1px solid #e3b84a;background:linear-gradient(#fff3c4,#ffd96b);border-radius:4px;font-family:var(--hand);font-size:15px;font-weight:700;color:#7a5a12;cursor:pointer;margin-bottom:4px}
+  
+  .girl{margin-top:auto;position:relative;margin-left:-75px}   /* stretch into the empty space under the tabs */
+  .girl img{width:100%;height:auto;display:block;filter:drop-shadow(0 6px 10px rgba(232,99,143,.18));transition:.2s}
+
+  .girl a:hover img{transform:scale(1.04) rotate(-1deg)}
+  .girl .speech{position:absolute;top:-6px;left:-20px;background:#fff;border:2px solid var(--pink);border-radius:14px;padding:4px 10px;font-family:var(--script);font-size:20px;color:var(--pink-deep);animation:bob 3s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-5px)}}
+
+  .footer-quote{margin-top:16px;text-align:center;font-family:var(--hand);font-size:20px;color:#e8638f;text-shadow:1px 1px 0 #fff}
+  .footer-quote em{font-family:var(--script);font-style:normal;font-size:24px}
+
+  .statusbar{display:flex;justify-content:space-between;padding:3px 10px;font-family:var(--pixel);font-size:11px;background:#7fb0e6;border-top:1px solid #ccc;color:#ffffff;border-radius:0 0 4px 4px}
+
+  
+
+  @media (max-width:900px){
+    .scallop{grid-template-columns:1fr}
+    .side-tabs{position:static;flex-direction:row;flex-wrap:wrap}
+    .side-tabs button{border-radius:10px;width:auto;padding:6px 12px}
+    .right{padding-left:0}
+    .rings{display:none}
+  }
+  .polaroid .img{height:220px;padding:12px}
+.polaroid .img img{width:100%;height:100%;object-fit:cover;display:block;border-radius:2px;
+  box-shadow:0 1px 4px rgba(0,0,0,.12)}
+
+  .left{gap:6px}                       /* space between every item in the left panel (was 12px) */
+.name{margin-bottom:0}
+.ilchon-gif{margin:0 auto}           /* removes the extra space above the GIF */
+.music-caption{font-family:var(--pixel);font-size:11px;color:#b07a90;margin:-22px 0 6px 14px}
+.nav-hint{font-family:var(--pixel);font-size:11px;color:#b07a90;margin:0 0 4px}
+</style>
+
+</head>
+<style>
+  .spark{position:fixed;pointer-events:none;z-index:9999;font-size:14px;
+    animation:sparkFade .9s ease-out forwards}
+  @keyframes sparkFade{
+    0%{opacity:1;transform:translate(0,0) scale(1) rotate(0)}
+    100%{opacity:0;transform:translate(var(--x),var(--y)) scale(.2) rotate(180deg)}
+  }
+</style>
+<script>
+  const sparkChars=['✦','✧','⋆','✩','♡'];
+  const sparkColors=['#ff9ec7','#ffd36b','#bfe3f5','#ffffff','#e8638f'];
+  let last=0;
+  document.addEventListener('mousemove',e=>{
+    if(Date.now()-last<70) return;      // fewer sparkles = smaller number
+    last=Date.now();
+    const s=document.createElement('span');
+    s.className='spark';
+    s.textContent=sparkChars[Math.random()*sparkChars.length|0];
+    s.style.color=sparkColors[Math.random()*sparkColors.length|0];
+    s.style.left=e.clientX+'px'; s.style.top=e.clientY+'px';
+    s.style.setProperty('--x',(Math.random()*40-20)+'px');
+    s.style.setProperty('--y',(Math.random()*30+10)+'px');  // drift downward
+    s.style.textShadow='0 0 6px '+s.style.color;
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),900);
+  });
+  /* ---------- project → diary links ---------- */
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('[data-diary]'); if(!btn) return;
+  document.querySelector('#tabs [data-v="diary"]').click();          // switch to diary tab
+  const entry=document.getElementById(btn.dataset.diary);
+  if(!entry) return;
+  setTimeout(()=>{
+    entry.scrollIntoView({behavior:'smooth',block:'start'});
+    entry.classList.remove('flash'); void entry.offsetWidth; entry.classList.add('flash');
+  },80);
+});
+</script>
+
+<body>
+
+<div class="browser">
+  <div class="titlebar">
+    <span class="ico"></span>
+    <span>http://mias-blog.vercel.app — 블로그 ♡ </span>
+    <div class="btns"><span>_</span><span>□</span><span>×</span></div>
+  </div>
+
+  <div class="stage">
+    <!-- between binder and other thing-->
+    <div class="scallop">
+
+      <!-- LEFT -->
+      <aside class="panel left">
+        <div class="rings"><span></span><span></span><span></span><span></span></div>
+        <div class="counter">TODAY <b id="today">0</b> | TOTAL <span id="total">12,345</span></div>
+        <div class="avatar-box">
+  <span class="bonjour">bonjour~</span>
+  <img id="minimi" src="media/Winter.jpeg" alt="profile picture" class="profile-pic">
+</div>
+<!-- <span class="pic-caption">aespa's biggest fan ^_^</span> -->
+        
+        <img src="media/blinkiesCafe-JD.gif" alt="blinkies" width="200" height="30">
+<p class="fr">« la vie est belle, non? »</p>
+<div class="history">▸ Info & Links ▾</div>
+<div class="name">hi, i'm mia gomez!
+  <small><a href="mailto:mia.dzgomez@gmail.com">✉ mia.dzgomez@gmail.com</a></small>
+  <small><a href="https://github.com/mia-oww" target="_blank">my github!</a></small>
+  <small><a href="https://www.linkedin.com/in/mia-gomez11/" target="_blank">linkedin.com/in/mia-gomez11</a></small>
+</div>
+<div class="ilchon">
+  <a href="https://www.glitter-graphics.com" target="_blank" class="ilchon-gif">
+    <img src="https://dl4.glitter-graphics.net/pub/780/780354oo09lvi98s.gif" width="105" height="120" alt="" style="border:0;display:block;">
+  </a>
+</div>
+</aside>
+
+      <!-- MAIN -->
+      <main class="panel main">
+        <div class="rings" style="left:-22px;right:auto"><span></span><span></span><span></span><span></span></div>
+        <nav class="side-tabs" id="tabs">
+          <button class="on" data-v="home">home</button>
+          <button data-v="profile">profile</button>
+          <button data-v="projects">projects</button>
+          <button data-v="diary">diary</button>
+          <button data-v="jukebox">music~</button>
+          <button data-v="photo">pics!</button>
+          <button data-v="guest">guest</button>
+        </nav>
+
+        <div class="main-head">
+          <h1>welcome to <span style="color:#e8638f;">mia</span>'s personal website~</h1>
+          <div><span class="fav" id="fav">♥ ADD FAVORITE</span></div>
+        </div>
+
+        <!-- HOME -->
+         <!---->
+        <section class="view on" id="v-home">
+  <div class="news-row">
+    <div style="grid-column:1 / -1;position:relative;">
+      <a href="https://www.glitter-graphics.com" target="_blank" style="position:absolute;top:0;right:30px;">
+        <img src="https://dl2.glitter-graphics.net/pub/493/493032fynpapo237.gif" width="100" alt="" style="border:0;display:block;">
+      </a>
+      
+      <p class="nav-hint">✦ navigate using the tab bars on the right side to learn more about me! ✦</p>
+      <div class="sec-title">Recent updates</div>
+      <ul class="news">
+        <li>excited for thanksgiving break!! ♡ </li>
+        <li>요즘 읽은 책: On the Origin of Time - Thomas Hertog</li>
+        <li>한국어 수업 브이로그 찍어야지 ㅠ_ㅠ</li>
+      </ul>
+    </div>
+            
+          </div>
+
+          <div>
+            <div class="sec-title">Mini Room <span style="float:right;font-size:15px;color:var(--pink-deep);font-weight:400">« chambre à Paris »</span></div>
+            <div class="room-wrap">
+              <!-- ============================================================
+                   ✏️ EDIT ME — MINI ROOM IMAGE
+                   Change src="..." to your own image or GIF link.
+                   e.g. src="images/my-room.gif" or src="https://.../room.gif"
+                   ============================================================ -->
+              <div class="room-slot">
+                <div class="ph">✿ mini room/img here ✿<br><small>replace src="miniroom.gif" in the code</small></div>
+                <img id="miniroom" src="miniroom.gif" alt="my mini room" onerror="this.style.display='none'">
+              </div>
+              <div class="room-bar"><span>[ ▸ 미니룸수정 ]</span><span>▸ 함께 사진찍기 &nbsp; ▸ 미니룸 담아가기</span></div>
+            </div>
+          </div>
+
+          <div class="friends">
+            <div class="sec-title">What friends say<small>일촌평</small></div>
+            <p><b>수아</b> : 미아야 파리 사진 너무 이쁘다 ㅠㅠ 나도 데려가!! <span class="fr">— ta meilleure amie</span></p>
+            <p><b>Camille</b> : On se voit au café demain? ☕ <span class="fr">— (내일 카페에서 볼까?)</span></p>
+          </div>
+        </section>
+
+        <!-- PROFILE -->
+        <section class="view" id="v-profile">
+          <div class="sec-title">Profile · 프로필</div>
+          <div class="profile-scroll">
+          <dl class="prof">
+            <dt>이름</dt><dd>Mia Gomez</dd>
+            <dt>생일</dt><dd>june 11, 2006</dd>
+            <dt>대학교</dt><dd>CS + AI @ Emory University, Korean Language Minor</dd>
+            <dt>좋아하는 것</dt><dd>i love music, learning languages(korean, french), electronics, astronomy, video games, fashion, & building things i like! i love learning new skills. </dd>
+            
+            <dt>skills</dt>
+<dd>
+  <div class="skill-group">
+    <span class="skill-label">Programming Languages</span>
+    <div class="skill-tags">
+      <span>JavaScript</span><span>Python</span><span>Java</span><span>TypeScript</span><span>Swift</span>
+      <span>HTML/CSS</span><span>C</span><span>Assembly</span><span>SQL</span>
+    </div>
+  </div>
+  <div class="skill-group">
+    <span class="skill-label">Frameworks &amp; Libraries</span>
+    <div class="skill-tags">
+      <span>React</span><span>Next.js</span><span>Flask</span><span>Tailwind CSS</span><span>Django</span>
+      <span>scikit-learn</span><span>ADK (Agent Development Kit)</span><span>A2UI</span>
+    </div>
+  </div>
+  <div class="skill-group">
+    <span class="skill-label">Tools &amp; Technologies</span>
+    <div class="skill-tags">
+      <span>Git</span><span>Figma</span><span>Supabase</span><span>REST APIs</span><span>Vertex AI</span>
+      <span>Google Cloud Platform</span><span>Server-Sent Events</span><span>BigQuery</span>
+    </div>
+  </div>
+</dd>
+        <dt>community related:</dt><dd>i'm upcoming president of girls who code @ emory, teaching girls K-12 basic python, html, css & javascript! i create lesson plans, worksheets, and programming assignments where the girls get to apply their knowledge! i also created the girls who code website -> <a href="https://gwc-emory.vercel.app/" target="_blank">gwc-emory.vercel.app</a>
+        <br><br>i'm also currently the events VP for computer science club @ emory, fostering a stronger community not only within undergraduate cs students, but also build department connections and a stronger alumni network! am extremely happy to have planned events such as research panels with emory professors, to emory alumni nights with current alum in the industry. our instagram -> <a href="https://www.instagram.com/emorycsclub/" target="_blank">emory cs club insta</a></dd>
+        
+        <dt>계획 중인 것:</dt><dd> want to build astronomy related software! would also like to build some cool stuff with electronics soon~</dd>
+        </dl>
+        </div>
+        </section>
+
+        <section class="view" id="v-projects">
+  <div class="sec-title">· Technical Projects · <small>MES PROJETS</small></div>
+
+  <div class="projects-scroll">
+
+    <!-- ===== PROJECT CARD (copy this whole <article> to add more) ===== -->
+    <article class="proj">
+      <div class="proj-top">
+        <span class="proj-role">Full-Stack & Security Engineer</span>
+        <span class="proj-date">Nov 2026 · Emory Hackathon</span>
+      </div>
+      <h3 class="proj-title">CasaWarden — IoT Network Security System </h3>
+      <!-- optional image: delete this line if you don't want one -->
+      <p class="proj-desc">Built an end-to-end IoT network-security system featuring a Raspberry Pi edge agent (Scapy, scikit-learn, nftables) that detects ARP-sweep attacks and quarantines compromised devices within ~2 seconds. Paired the agent with a containerized React/TypeScript, FastAPI, and TimescaleDB dashboard for real-time topology visualization and one-click containment, plus an Arduino UNO Q LED display for live physical threat-state feedback—cutting telemetry overhead by 98% after resolving capture-loop I/O bottlenecks.</p>
+      <div class="proj-tags"><span>Python</span><span>TypeScript</span><span>scikit-learn</span><span>PostgreSQL/TimescaleDB</span><span>Scapy</span><span>Docker</span><span>Gemini API</span><span>Scytoscape.js</span></div>
+      <div class="proj-links">
+        <button class="proj-btn" data-diary="diary-project1">✎ thoughts in my diary ♡</button>
+        <a class="proj-btn" href="https://github.com/Rishikesh427/SecurIoT" target="_blank">GitHub ↗</a>
+      </div>
+    </article>
+
+    <!-- ===== PROJECT CARD 2 (no image example) ===== -->
+    <article class="proj">
+      <div class="proj-top">
+        <span class="proj-role">Software Engineer</span>
+        <span class="proj-date">June-August 2026</span>
+      </div>
+      <h3 class="proj-title">Google </h3>
+      <p class="proj-desc">A full-stack AI application built with Google’s Agent Development Kit, Vite/React, and Cloud Vertex AI. Engineered a hierarchical multi-agent system with dynamic intent routing that delegates tasks to specialized sub-agents—cutting end-to-end latency in half while maintaining sub-200ms API overhead across four live data providers on Google Cloud Run.</p>
+      <div class="proj-tags"><span>Agent Development Kit</span><span>React</span><span>Google Maps API</span><span>Gemini API</span><span>BigQuery</span><span>A2UI</span></div>
+      <div class="proj-links">
+        <button class="proj-btn" data-diary="diary-project2">✎ thoughts in my diary ♡</button>
+      </div>
+    </article>
+
+    <article class="proj">
+      <div class="proj-top">
+        <!--<span class="proj-role">Software Engineer</span> -->
+        <span class="proj-date">June-August 2026</span>
+      </div>
+      <h3 class="proj-title">Reddit Verdict Classifier </h3>
+      <p class="proj-desc">Trained a Logistic Regression classifier on 11,662 Reddit posts using TF-IDF vectorization and bigram feature
+extraction, outperforming Naïve Bayes and Decision Trees with a 71% classification accuracy while evaluating
+performance across precision, recall, and F1-score.</p>
+      <div class="proj-tags"><span>Python</span><span>scikit-learn</span><span>Reddit API</span><span>Data Mining</span></div>
+      <div class="proj-links">
+  <a class="proj-btn" href="pdf/data_mining.pdf" target="_blank">~ read the paper here ~</a>
+</div>
+    </article>
+
+    <article class="proj">
+      <div class="proj-top">
+        <span class="proj-role">Front & Backend Engineer</span>
+        <span class="proj-date">October 2025 - May 2026 · Emory Hack4Impact</span>
+      </div>
+      <h3 class="proj-title">Odyssey</h3>
+      <!-- optional image: delete this line if you don't want one -->
+      <p class="proj-desc">Collaborated with a 6-person team to build an internal HR career portal for Odyssey Family Consulting, where I architected the security and media storage infrastructure. I implemented strict CORS policies, token-based authentication, and role-based access control across API endpoints to safeguard sensitive employee records for 45+ active users. To keep the platform fast and scalable, I also structured user image storage using Dockerized cloud buckets, cutting media processing overhead by 35% and noticeably speeding up profile render times across the app.</p>
+      <div class="proj-tags"><span>Next.js</span><span>Supabase</span><span>Prisma</span><span>TypeScript</span><span>daisyUI</span><span>Docker</span></div>
+    </article>
+
+  </div>
+</section>
+
+<section class="view" id="v-diary">
+  <div class="sec-title">Diary · 다이어리 <small>MON JOURNAL</small></div>
+  <div class="diary-scroll">
+
+    <div class="diary-card" id="diary-project1">
+      <span class="stamp">notes ✿</span>
+      <div class="date">le 16 novembre · personal website</div>
+        for this website i was heavily inspired by early 2000's korean web-browser social media cyworld & sayclub! a lot of aspects of this website are also influenced by the internet era i grew up in(e.g. girls go games), through that i decided to also build this website using simple html! a simple database is also displaying visitor count (i want to display visitor comments as well!). as you can see, you'll see a mix of both languages i'm currently learning! this is also another way for me to practice ^_^
+      </div>
+
+    <div class="diary-card" id="diary-project1">
+      <span class="stamp">projet ✿</span>
+      <div class="date">le 15 novembre · CasaWarden</div>
+      post-hackathon thoughts: though we didn't win, i learned a lot from this hackathon experience! definitely a huge shoutout to my teammates grace, saanvi, and rishi, we all worked so hard and learned so much, especially since none of us have really worked with cybersecurity before. learning about how devices can be compromised through wifi networks was honestly quite scary, since we are all vulnerable to those type of attacks. though, with the software we built: CasaWarden, we accomplished exactly what we wanted, quarantined those compromised devices so attackers cannot access any other personal devices :P! i also learned how to work with raspberry pi on a more on-hands manner, along with the arduino (that was gifted thanks to sponsors!!!), having the leds react to when the system is healthy/attacked/quarantined was pretty fun!
+    </div>
+
+    <div class="diary-card" id="diary-project2">
+      <span class="stamp">projet ✿</span>
+      <div class="date">aug 1 · Google internship experience</div>
+      getting a google internship my sophomore summer was one of the most transformative experiences i've ever been through. going in, it was definitely tough as all of the tools used were completely new to me, like A2UI and the whole Google cloud console to be honest, i had never used it before. i am so incredibly grateful to have learned from wonderful engineers and created something i hope will last forever :). to chris and omi, you were the best managers ever! and to my mentor, i hope we'll stay in contact for a long time. i hope i can come back one day to you, Google!
+      (p.s., check out pics to see a picture of the google team i worked with :D!)
+    </div>
+
+  </div>
+</section>
+
+        <!-- JUKEBOX -->
+        <section class="view" id="v-jukebox" style="min-height:400px">
+        
+          <div class="sec-title" style="display:flex;align-items:center;gap:10px; color:#e8638f;">
+              · Music I'm Listening to · 좋아하는 음악~!
+            <a href="https://www.glitter-graphics.com" > </a><img src="https://dl2.glitter-graphics.net/pub/948/948532zr96alyx9q.gif" width=55 height=57 border=0></a>
+          </div>
+          <p class="music-caption">click any song here or in the BGM player to listen! ♪</p> 
+          <ul class="news" id="playlist"></ul>
+          <p style="font-size:15px;color:#b07a90">♪ 곡 이름을 누르면 BGM이 바뀌어요</p>
+
+          <a href="https://www.glitter-graphics.com" target="_blank" style="display:block;width:max-content;margin:60px auto 0;"> 
+        <img src="https://dl2.glitter-graphics.net/pub/1148/1148692hifh3l494y.gif" width="150" height="180" alt="" style="border:0;display:block;">
+          </a>
+        </section>
+
+        <!-- PHOTO -->
+        <section class="view" id="v-photo">
+          <div class="sec-title">Photos · 사진첩</div>
+          <div class="photos">
+            <div class="polaroid" style="--r:-3deg">
+  <div class="img" style="background:#ffe4ee"><img src="pics/arduino.jpg" alt=""></div>
+  <p>arduino LED testing</p>
+</div>
+            <div class="polaroid" style="--r:2deg"><div class="img" style="background:#dff1fb"><img src="pics/google.jpeg" alt=""></div>
+  <p>intern @ Google summer 26'</p>
+</div>
+            <div class="polaroid" style="--r:-1deg"><div class="img" style="background:#dff1fb">⛵</div><p>la Seine</p></div>
+            <div class="polaroid" style="--r:3deg"><div class="img" style="background:#c9ecd9">🌷</div><p>le marché</p></div>
+            <div class="polaroid" style="--r:-2deg"><div class="img" style="background:#ffe4ee">🍰</div><p>pâtisserie</p></div>
+            <div class="polaroid" style="--r:1deg"><div class="img" style="background:#efe4ff">🎨</div><p>Montmartre</p></div>
+            <div class="polaroid" style="--r:1deg"><div class="img" style="background:#efe4ff">🎨</div><p>Montmartre</p></div>
+          </div>
+        </section>
+
+        <!-- GUESTBOOK -->
+        <section class="view" id="v-guest">
+          <div class="sec-title">Guestbook · 방명록 <small>LIVRE D'OR</small></div>
+          <form class="gb-form" id="gbForm">
+            <input id="gbName" placeholder="이름" maxlength="12" required>
+            <textarea id="gbMsg" placeholder="일촌평 남겨주세요 ~ ♡ (laissez un mot!)" maxlength="140" required></textarea>
+            <button class="btn" type="submit">확인</button>
+          </form>
+          <div id="gbList" style="display:flex;flex-direction:column;gap:10px"></div>
+        </section>
+      </main>
+
+      <!-- RIGHT -->
+      <aside class="right">
+        <div class="bgm" id="bgm">
+          <div class="lbl"style="color:#e8638f;">> ♫ BGM <span class="eq"><i></i><i></i><i></i><i></i></span></div>
+          <div class="marquee"><span id="songTitle">♪ Sous le ciel de Séoul — Mia's mix ♪</span></div>
+          <div class="ctrl"><button id="prev">◀◀</button><button id="play">▶</button><button id="next">▶▶</button></div>
+        </div>
+
+        <div class="bars">
+          <div class="row"><span>로맨틱</span><div class="bar"><i style="width:60%;background:#ef6f6f"></i></div><span class="num">96</span></div>
+          <div class="row"><span>파리지앵</span><div class="bar"><i style="width:75%;background:#7cc79c"></i></div><span class="num">106</span></div>
+          <div class="row"><span>러블리</span><div class="bar"><i style="width:92%;background:#5aa9d6"></i></div><span class="num">241</span></div>
+          <div class="row"><span>시크</span><div class="bar"><i style="width:38%;background:#777"></i></div><span class="num">67</span></div>
+          <div class="row"><span>달콤</span><div class="bar"><i style="width:84%;background:#f2c94c"></i></div><span class="num">196</span></div>
+        </div>
+
+        <div class="quick">
+          <!--<button id="dotori">🌰 도토리: <span id="acorn">30</span>개</button> -->
+        </div>
+
+        <div class="girl">
+          <!-- ✏️ EDIT ME — corner image: change href (link) and src (image/GIF) -->
+            <img src="media/girl.gif" alt="my corner image">
+          </a>
+        
+    </div>
+      </aside>
+    </div>
+    <p class="footer-quote">무에서 유를 창조하는 <em>magie</em>, 그게 바로 제가 코드를 쓰는 이유입니다. ♡</p>
+  </div>
+  <div class="statusbar"><span>완료</span><span>인터넷</span></div>
+</div>
+
+<script>
+
+
+
+/* ---------- counters ---------- */
+/* ---------- real visitor counter (Supabase) ---------- */
+const SUPABASE_URL='https://qjjuralcieaalrgawfuy.supabase.co';   // ✏️ Project Settings → API
+const SUPABASE_KEY='sb_publishable_5xQLxT6CwliKWUJI-bVZ8A_583hiyi1';       // ✏️ the public one, NOT service_role
+
+(async()=>{
+  const dayKey='visited-'+new Date().toDateString();
+  let firstToday=true;
+  try{ firstToday=!localStorage.getItem(dayKey); localStorage.setItem(dayKey,'1'); }catch(e){}
+  try{
+    const r=await fetch(SUPABASE_URL+'/rest/v1/rpc/record_visit',{
+      method:'POST',
+      headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({do_count:firstToday})
+    });
+    const {today,total}=await r.json();
+    document.getElementById('today').textContent=today.toLocaleString();
+    document.getElementById('total').textContent=total.toLocaleString();
+  }catch(e){ /* counter offline — leave placeholder */ }
+})();
+
+/* ---------- petals ---------- */
+const petals=['✦','✿','❀','✧','🎀'];
+const petalColors=['#e8638f','#ff9ec7','#5aa9d6','#ffc94d','#b98cf0'];
+
+function petal(){
+  const p=document.createElement('span'); p.className='petal';
+  const ch=petals[Math.random()*petals.length|0];
+  const color=petalColors[Math.random()*petalColors.length|0];
+  p.textContent=ch;
+  p.style.left=Math.random()*100+'vw';
+  // sparkles are thin, so make them a bit bigger than the flowers
+  const isSparkle=(ch==='✦'||ch==='✧');
+  p.style.fontSize=(isSparkle?18:12)+Math.random()*14+'px';
+  p.style.color=color;
+  p.style.textShadow=`0 0 4px #fff, 0 0 8px ${color}`;   // the glow
+  p.style.setProperty('--dx',(Math.random()*160-80)+'px');
+  p.style.animationDuration=(7+Math.random()*6)+'s';
+  document.body.appendChild(p); setTimeout(()=>p.remove(),14000);
+}
+setInterval(petal,700);
+
+/* ---------- BGM (real music files) ---------- */
+const SONGS=[
+  {t:'Closer - 송하예', src:'music/closer.mp3'},
+  {t:'Skrr (Feat. Giselle) — HAON(김하온)', src:'music/SKRR-GISELLE.mp3'},
+  {t:'Forever(약속) - 에스파(aespa)', src:'music/ForeverAespa.mp3'},
+  {t:'미행 (그림자: Shadow) - f(x)', src:'music/미행.mp3'},
+  {t: 'My Everything - KyoungSeo', src:'music/my-everything.mp3'}
+];
+let si=0;
+const audio=new Audio(SONGS[0].src);
+audio.volume=0.5;                      // 0 to 1
+const bgm=document.getElementById('bgm'), title=document.getElementById('songTitle'), playBtn=document.getElementById('play');
+
+function play(){audio.play();bgm.classList.add('playing');playBtn.textContent='❚❚'}
+function stop(){audio.pause();bgm.classList.remove('playing');playBtn.textContent='▶'}
+function setSong(i){
+  si=(i+SONGS.length)%SONGS.length;
+  const wasPlaying=!audio.paused;
+  audio.src=SONGS[si].src;
+  title.textContent='♪ '+SONGS[si].t+' ♪';
+  if(wasPlaying) play();
+}
+audio.addEventListener('ended',()=>{setSong(si+1);play()});   // auto-next
+playBtn.onclick=()=>audio.paused?play():stop();
+document.getElementById('next').onclick=()=>setSong(si+1);
+document.getElementById('prev').onclick=()=>setSong(si-1);
+title.textContent='♪ '+SONGS[0].t+' ♪';
+
+const pl=document.getElementById('playlist');
+SONGS.forEach((s,i)=>{const li=document.createElement('li');li.textContent=`${i+1}. ${s.t}`;li.onclick=()=>{setSong(i);play()};pl.appendChild(li)});
+/* ---------- dotori ---------- */
+let acorn=30; document.getElementById('dotori').onclick=()=>{acorn++;document.getElementById('acorn').textContent=acorn};
+
+/* ---------- guestbook ---------- */
+const KEY='petitjournal-gb';
+const GB_ICON='winter.jpeg';   // ✏️ EDIT ME — small picture next to each guestbook message
+let gb=[{n:'수아',m:'미아야~ 미니홈피 너무 예쁘다 ♡ 자주 놀러올게!',d:'2026.11.15'},{n:'Camille',m:'Trop mignon! 🥐 (완전 귀여워!)',d:'2026.11.14'}];
+try{const s=JSON.parse(localStorage.getItem(KEY));if(Array.isArray(s))gb=s}catch(e){}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function renderGB(){
+  document.getElementById('gbList').innerHTML=gb.map((g,i)=>`
+    <article class="gb-entry"><header><span>No.${gb.length-i} &nbsp; ${esc(g.n)}</span><span>${esc(g.d)}</span></header>
+    <div><img src="${GB_ICON}" alt="" style="width:32px;height:auto;flex-shrink:0;">${esc(g.m)}</div></article>`).join('');
+  const count=document.getElementById('gbCount');
+  if(count) count.textContent=gb.length+'/48';
+}
+document.getElementById('gbForm').onsubmit=e=>{
+  e.preventDefault();
+  const d=new Date(), ds=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+  gb.unshift({n:gbName.value.trim(),m:gbMsg.value.trim(),d:ds});
+  try{localStorage.setItem(KEY,JSON.stringify(gb))}catch(e){}
+  gbMsg.value=''; renderGB();
+};
+renderGB();
+</script>
+</body>
+</html>
