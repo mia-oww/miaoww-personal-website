@@ -63,6 +63,24 @@
   display:flex;flex-direction:column;align-items:center;pointer-events:none}
 .site-header a{pointer-events:auto}
 
+.proj-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;   /* reserves the space before the image loads */
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 8px 0;
+  background: #fdf3f6;    /* soft placeholder color while it loads */
+}
+
+.proj-imgs .proj-img {
+  margin: 0;
+  aspect-ratio: 4 / 3;    /* shape for the side-by-side pairs */
+}
+@media (max-width: 600px) {
+  .proj-imgs { grid-template-columns: 1fr; }
+}
+
 
 /* glow when jumping to a diary entry */
 .diary-card.flash{animation:flash 1.6s ease}
@@ -330,8 +348,18 @@
 .music-caption{font-family:var(--pixel);font-size:11px;color:#b07a90;margin:-22px 0 6px 14px}
 .nav-hint{font-family:var(--pixel);font-size:11px;color:#b07a90;margin:0 0 4px}
 
+.proj-img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  object-position: center 30%;
+  border-radius: 8px;
+}
+
 body{cursor:url('media/normal_select.cur'), auto}
-a, button, select, .see-all, #tabs button, #boardReset{cursor:url('media/link_select.cur'), pointer !important}
+a, button, select, .see-all, #tabs button,
+#playlist li, .polaroid, .news li, .stats div, .gif-sticker, #boardReset
+{cursor:url('media/link_select.cur'), pointer !important}
 </style>
 
 <!-- link preview (iMessage, Discord, LinkedIn, Slack, etc.) -->
@@ -571,8 +599,6 @@ window.addEventListener('load',()=>{
           <div><span class="fav" id="fav">♥ ADD FAVORITE</span></div>
         </div>
 
-        <!-- HOME -->
-         <!---->
         <section class="view on" id="v-home">
   <div class="news-row">
     <div style="grid-column:1 / -1;position:relative;">
@@ -713,6 +739,51 @@ performance across precision, recall, and F1-score.</p>
       <p class="proj-desc">Collaborated with a 6-person team to build an internal HR career portal for Odyssey Family Consulting, where I architected the security and media storage infrastructure. I implemented strict CORS policies, token-based authentication, and role-based access control across API endpoints to safeguard sensitive employee records for 45+ active users. To keep the platform fast and scalable, I also structured user image storage using Dockerized cloud buckets, cutting media processing overhead by 35% and noticeably speeding up profile render times across the app.</p>
       <div class="proj-tags"><span>Next.js</span><span>Supabase</span><span>Prisma</span><span>TypeScript</span><span>daisyUI</span><span>Docker</span></div>
     </article>
+
+    <article class="proj">
+  <div class="proj-top">
+    <span class="proj-role">CS 370 - Team Undercooked</span>
+    <span class="proj-date">January - April 2026</span>
+  </div>
+  <h3 class="proj-title">Sustainabear</h3>
+  <img class="proj-img" src="media/sustainabear.jpeg" alt="Screenshot of Sustainabear, a sustainability education game">
+  <p class="proj-desc">Led development of a sustainability education game for kids and adults, set in a world where bears caused their own downfall through environmental damage. Players move through an unfolding storyline and mini-games that teach real habits like recycling and cooking sustainably. As Project Manager and Product Owner, I ran sprint planning, made architecture decisions, and reviewed pull requests. I also designed the core UI and the game's visual style, and helped build 2 of the 4 mini-games.</p>
+  <div class="proj-tags"><span>React</span><span>Supabase</span></div>
+  <div class="proj-links">
+    <a class="proj-btn" href="https://github.com/mia-oww/Undercooked" target="_blank">GitHub ↗</a>
+  </div>
+</article>
+
+<article class="proj">
+  <div class="proj-top">
+    <span class="proj-role">Georgia Nursing Workforce Center - Emory</span>
+    <span class="proj-date">September - December 2025</span>
+  </div>
+  <h3 class="proj-title">Mapping Georgia's Nurse Practitioner Workforce</h3>
+  <div class="proj-imgs">
+    <img class="proj-img" src="media/nursingpracdistr1.jpeg" alt="Choropleth map of nurse practitioner density across Georgia counties">
+    <img class="proj-img" src="media/nursingpracdist2.jpeg" alt="Map zoomed to selected Georgia counties with specialty filter applied">
+  </div>
+  <p class="proj-desc">Built an interactive choropleth map for the Georgia Nursing Workforce Center at Emory's Nell Hodgson Woodruff School of Nursing, showing the density and specialty mix of Nurse Practitioners across all 159 Georgia counties to help researchers and policymakers spot gaps in NP coverage. Features county-level density shading with filters for each NP specialty and automatic zoom to selected counties. I processed ZIP code and provider data to place each NP in their practicing county, using only de-identified, aggregate data to protect privacy.</p>
+  <div class="proj-tags"><span>JavaScript</span><span>Vite</span><span>Leaflet</span><span>GeoJSON</span><span>Papa Parse</span></div>
+  <div class="proj-links">
+    <a class="proj-btn" href="https://github.com/mia-oww/NursingDataLab" target="_blank">GitHub ↗</a>
+  </div>
+</article>
+
+<article class="proj">
+  <div class="proj-top">
+    <span class="proj-role">PeachHacks Hackathon</span>
+    <span class="proj-date">April 2025</span>
+  </div>
+  <h3 class="proj-title">RetroSeek</h3>
+  <img class="proj-img" src="media/retroseek.jpeg" alt="Screenshot of RetroSeek, a Y2K-style search engine">
+  <p class="proj-desc">Built a Y2K-inspired search engine in a 48-hour hackathon, bringing back the look and feel of the early-2000s internet without giving up speed. It has customizable retro themes and lets users explore archived early-2000s websites through the Wayback Machine API. I also wrote a custom search algorithm that improved result accuracy by 65% and cut query time by 2.5 seconds.</p>
+  <div class="proj-tags"><span>TypeScript</span><span>React</span><span>Vite</span><span>Tailwind CSS</span><span>JavaScript</span><span>HTML</span><span>Wayback Machine API</span></div>
+  <div class="proj-links">
+    <a class="proj-btn" href="https://github.com/mia-oww/retroseek-PeachHacks" target="_blank">GitHub ↗</a>
+  </div>
+</article>
 
   </div>
 </section>
