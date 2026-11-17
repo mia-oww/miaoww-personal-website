@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mia's Petit Journal ♡ 미니홈피</title>
+<title>mia's blog ♡ 블로그</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Gaegu:wght@400;700&family=Pinyon+Script&family=Playfair+Display:ital@1&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Gaegu:wght@400;700&family=Pinyon+Script&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 <style>
 
@@ -15,7 +16,7 @@
      If the image can't load, the pink polka-dot pattern shows instead.
      ============================================================ */
   :root{
-    --skin-image: url('media/whitebg.jpg');
+    /*--skin-image: url('media/whitebg.jpg'); */
     --skin-size: cover;        /* cover = fill the area | auto = tile/repeat it */
     --skin-repeat: no-repeat;  /* use repeat if you want it tiled */
     --pink:#f7a8c4; --pink-deep:#e8638f; --pink-soft:#ffe4ee; --cream:#fffaf3;
@@ -25,11 +26,12 @@
     --script:'Pinyon Script', cursive; --serif:'Playfair Display', serif;
 
     /* scrollable areas */
-.projects-scroll,.diary-scroll{max-height:520px;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:4px 8px 4px 2px}
-.projects-scroll::-webkit-scrollbar,.diary-scroll::-webkit-scrollbar{width:8px}
-.projects-scroll::-webkit-scrollbar-thumb,.diary-scroll::-webkit-scrollbar-thumb{background:var(--pink);border-radius:8px}
-.projects-scroll::-webkit-scrollbar-track,.diary-scroll::-webkit-scrollbar-track{background:var(--pink-soft);border-radius:8px}
-
+/* scrollable areas */
+.projects-scroll,.diary-scroll,.profile-scroll{display:flex;flex-direction:column;gap:14px}
+.projects-scroll,.diary-scroll,.profile-scroll,.photos{max-height:620px;overflow-y:auto;padding:12px 8px 4px 2px}
+.projects-scroll::-webkit-scrollbar,.diary-scroll::-webkit-scrollbar,.profile-scroll::-webkit-scrollbar,.photos::-webkit-scrollbar{width:8px}
+.projects-scroll::-webkit-scrollbar-thumb,.diary-scroll::-webkit-scrollbar-thumb,.profile-scroll::-webkit-scrollbar-thumb,.photos::-webkit-scrollbar-thumb{background:var(--pink);border-radius:8px}
+.projects-scroll::-webkit-scrollbar-track,.diary-scroll::-webkit-scrollbar-track,.profile-scroll::-webkit-scrollbar-track,.photos::-webkit-scrollbar-track{background:var(--pink-soft);border-radius:8px}
 /* project cards */
 .proj{border:2px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff;
   box-shadow:3px 3px 0 var(--pink-soft);transition:.2s}
@@ -203,7 +205,7 @@
   .polaroid{background:#fff;padding:8px 8px 26px;box-shadow:0 3px 10px rgba(0,0,0,.1);transform:rotate(var(--r));transition:.2s;position:relative;cursor:pointer}
   .polaroid:hover{transform:rotate(0) scale(1.04);z-index:2}
   .polaroid .img{height:110px;border-radius:2px;display:grid;place-items:center;font-size:44px}
-  .polaroid p{position:absolute;bottom:4px;left:0;right:0;text-align:center;font-family:var(--script);font-size:18px;color:var(--ink)}
+  .polaroid p{position:absolute;bottom:4px;left:0;right:0;text-align:center;font-family:'Nanum Pen Script',cursive;font-size:18px;color:var(--ink)}
   .polaroid::before{content:"";position:absolute;top:-8px;left:50%;width:50px;height:16px;margin-left:-25px;background:rgba(247,168,196,.6);transform:rotate(-3deg)}
 
   /* profile */
@@ -252,10 +254,10 @@
   .girl .speech{position:absolute;top:-6px;left:-20px;background:#fff;border:2px solid var(--pink);border-radius:14px;padding:4px 10px;font-family:var(--script);font-size:20px;color:var(--pink-deep);animation:bob 3s ease-in-out infinite}
   @keyframes bob{50%{transform:translateY(-5px)}}
 
-  .footer-quote{margin-top:16px;text-align:center;font-family:var(--hand);font-size:20px;color:#fff;text-shadow:1px 1px 0 var(--pink-deep)}
+  .footer-quote{margin-top:16px;text-align:center;font-family:var(--hand);font-size:20px;color:#e8638f;text-shadow:1px 1px 0 #fff}
   .footer-quote em{font-family:var(--script);font-style:normal;font-size:24px}
 
-  .statusbar{display:flex;justify-content:space-between;padding:3px 10px;font-family:var(--pixel);font-size:11px;background:#ece9e4;border-top:1px solid #ccc;border-radius:0 0 4px 4px}
+  .statusbar{display:flex;justify-content:space-between;padding:3px 10px;font-family:var(--pixel);font-size:11px;background:#7fb0e6;border-top:1px solid #ccc;color:#ffffff;border-radius:0 0 4px 4px}
 
   
 
@@ -273,6 +275,8 @@
   .left{gap:6px}                       /* space between every item in the left panel (was 12px) */
 .name{margin-bottom:0}
 .ilchon-gif{margin:0 auto}           /* removes the extra space above the GIF */
+.music-caption{font-family:var(--pixel);font-size:11px;color:#b07a90;margin:-22px 0 6px 14px}
+.nav-hint{font-family:var(--pixel);font-size:11px;color:#b07a90;margin:0 0 4px}
 </style>
 
 </head>
@@ -320,7 +324,7 @@ document.addEventListener('click',e=>{
 <div class="browser">
   <div class="titlebar">
     <span class="ico"></span>
-    <span>http://minihompy.mia/petit-journal — 사이좋은 사람들 ♡ </span>
+    <span>http://mias-blog.vercel — 블로그 ♡ </span>
     <div class="btns"><span>_</span><span>□</span><span>×</span></div>
   </div>
 
@@ -333,29 +337,25 @@ document.addEventListener('click',e=>{
         <div class="rings"><span></span><span></span><span></span><span></span></div>
         <div class="counter">TODAY <b id="today">0</b> | TOTAL <span id="total">12,345</span></div>
         <div class="avatar-box">
-          <span class="bonjour">bonjour~</span>
-          <!-- ✏️ EDIT ME — profile picture -->
-        <img id="minimi" src="media/Winter.jpeg" alt="my profile picture" class="profile-pic">
-        <span class="pic-caption">not me, aespa's winter!</span>
-        </div>
-        <div class="mood">TODAY IS..
-          <select id="mood">
-            <option>🎵 즐거움</option><option>🥐 배고픔</option><option>☕ 여유</option><option>💤 졸림</option><option>💗 설렘</option>
-          </select>
-        </div>
+  <span class="bonjour">bonjour~</span>
+  <img id="minimi" src="media/Winter.jpeg" alt="profile picture" class="profile-pic">
+</div>
+<!-- <span class="pic-caption">aespa's biggest fan ^_^</span> -->
+        
         <img src="media/blinkiesCafe-JD.gif" alt="blinkies" width="200" height="30">
-<span class="fr">« la vie est belle, non? »</span></p>
-        <div class="history">▸ Info & Links ▾</div>
-        <div class="name">hi, i'm mia gomez!
+<p class="fr">« la vie est belle, non? »</p>
+<div class="history">▸ Info & Links ▾</div>
+<div class="name">hi, i'm mia gomez!
   <small><a href="mailto:mia.dzgomez@gmail.com">✉ mia.dzgomez@gmail.com</a></small>
   <small><a href="https://github.com/mia-oww" target="_blank">my github!</a></small>
   <small><a href="https://www.linkedin.com/in/mia-gomez11/" target="_blank">linkedin.com/in/mia-gomez11</a></small>
 </div>
-        <div class="ilchon">
-          
-          <a href="https://www.glitter-graphics.com"><img src="https://dl4.glitter-graphics.net/pub/780/780354oo09lvi98s.gif" width=105 height=120 border=0></a>
-        </div>
-      </aside>
+<div class="ilchon">
+  <a href="https://www.glitter-graphics.com" target="_blank" class="ilchon-gif">
+    <img src="https://dl4.glitter-graphics.net/pub/780/780354oo09lvi98s.gif" width="105" height="120" alt="" style="border:0;display:block;">
+  </a>
+</div>
+</aside>
 
       <!-- MAIN -->
       <main class="panel main">
@@ -371,24 +371,28 @@ document.addEventListener('click',e=>{
         </nav>
 
         <div class="main-head">
-          <h1>welcome to mia's personal website~</h1>
+          <h1>welcome to <span style="color:#e8638f;">mia</span>'s personal website~</h1>
           <div><span class="fav" id="fav">♥ ADD FAVORITE</span></div>
         </div>
 
         <!-- HOME -->
+         <!---->
         <section class="view on" id="v-home">
-          <div class="news-row">
-            <div>
-              <div class="sec-title">Recent updates </div>
-              <ul class="news">
-                <li>excited for thanksgiving break!! ♡</li>
-                <li>요즘 읽은 책: Origin of Time</li>
-                <li>한국어 수업 브이로그 찍어야지 ㅠ_ㅠ</li>
-              </ul>
-            </div>
-            <div>
-              
-            </div>
+  <div class="news-row">
+    <div style="grid-column:1 / -1;position:relative;">
+      <a href="https://www.glitter-graphics.com" target="_blank" style="position:absolute;top:0;right:30px;">
+        <img src="https://dl2.glitter-graphics.net/pub/493/493032fynpapo237.gif" width="100" alt="" style="border:0;display:block;">
+      </a>
+      
+      <p class="nav-hint">✦ navigate using the tab bars on the right side to learn more about me! ✦</p>
+      <div class="sec-title">Recent updates</div>
+      <ul class="news">
+        <li>excited for thanksgiving break!! ♡ </li>
+        <li>요즘 읽은 책: On the Origin of Time - Thomas Hertog</li>
+        <li>한국어 수업 브이로그 찍어야지 ㅠ_ㅠ</li>
+      </ul>
+    </div>
+            
           </div>
 
           <div>
@@ -417,13 +421,14 @@ document.addEventListener('click',e=>{
         <!-- PROFILE -->
         <section class="view" id="v-profile">
           <div class="sec-title">Profile · 프로필</div>
+          <div class="profile-scroll">
           <dl class="prof">
             <dt>이름</dt><dd>Mia Gomez</dd>
             <dt>생일</dt><dd>june 11, 2006</dd>
             <dt>대학교</dt><dd>CS + AI @ Emory University, Korean Language Minor</dd>
-            <dt>좋아하는 것</dt><dd>i love music, learning languages(korean, french), electronics, astronomy, video games, & building things i like! i love learning new skills. </dd>
+            <dt>좋아하는 것</dt><dd>i love music, learning languages(korean, french), electronics, astronomy, video games, fashion, & building things i like! i love learning new skills. </dd>
             
-            <dt>Skills</dt>
+            <dt>skills</dt>
 <dd>
   <div class="skill-group">
     <span class="skill-label">Programming Languages</span>
@@ -447,8 +452,12 @@ document.addEventListener('click',e=>{
     </div>
   </div>
 </dd>
-        <dt>계획 중인 것:</dt><dd> want to build astronomy related software! something related to </dd>
+        <dt>community related:</dt><dd>i'm upcoming president of girls who code @ emory, teaching girls K-12 basic python, html, css & javascript! i create lesson plans, worksheets, and programming assignments where the girls get to apply their knowledge! i also created the girls who code website -> <a href="https://gwc-emory.vercel.app/" target="_blank">gwc-emory.vercel.app</a>
+        <br><br>i'm also currently the events VP for computer science club @ emory, fostering a stronger community not only within undergraduate cs students, but also build department connections and a stronger alumni network! am extremely happy to have planned events such as research panels with emory professors, to emory alumni nights with current alum in the industry. our instagram -> <a href="https://www.instagram.com/emorycsclub/" target="_blank">emory cs club insta</a></dd>
+        
+        <dt>계획 중인 것:</dt><dd> want to build astronomy related software! would also like to build some cool stuff with electronics soon~</dd>
         </dl>
+        </div>
         </section>
 
         <section class="view" id="v-projects">
@@ -464,9 +473,8 @@ document.addEventListener('click',e=>{
       </div>
       <h3 class="proj-title">CasaWarden — IoT Network Security System </h3>
       <!-- optional image: delete this line if you don't want one -->
-      <img class="proj-img" src="images/project1.png" alt="project screenshot">
       <p class="proj-desc">Built an end-to-end IoT network-security system featuring a Raspberry Pi edge agent (Scapy, scikit-learn, nftables) that detects ARP-sweep attacks and quarantines compromised devices within ~2 seconds. Paired the agent with a containerized React/TypeScript, FastAPI, and TimescaleDB dashboard for real-time topology visualization and one-click containment, plus an Arduino UNO Q LED display for live physical threat-state feedback—cutting telemetry overhead by 98% after resolving capture-loop I/O bottlenecks.</p>
-      <div class="proj-tags"><span>Python</span><span>TypeScript</span><span>sci-kit-learn</span><span>PostgreSQL/TimescaleDB</span><span>Scapy</span><span>Docker</span><span>Gemini API</span><span>Scytoscape.js</span></div>
+      <div class="proj-tags"><span>Python</span><span>TypeScript</span><span>scikit-learn</span><span>PostgreSQL/TimescaleDB</span><span>Scapy</span><span>Docker</span><span>Gemini API</span><span>Scytoscape.js</span></div>
       <div class="proj-links">
         <button class="proj-btn" data-diary="diary-project1">✎ thoughts in my diary ♡</button>
         <a class="proj-btn" href="https://github.com/Rishikesh427/SecurIoT" target="_blank">GitHub ↗</a>
@@ -476,15 +484,41 @@ document.addEventListener('click',e=>{
     <!-- ===== PROJECT CARD 2 (no image example) ===== -->
     <article class="proj">
       <div class="proj-top">
-        <span class="proj-role">Team Lead · Backend</span>
-        <span class="proj-date">Oct 2026</span>
+        <span class="proj-role">Software Engineer</span>
+        <span class="proj-date">June-August 2026</span>
       </div>
-      <h3 class="proj-title">Second Project</h3>
-      <p class="proj-desc">Another short description. This card has no image, and that's totally fine.</p>
-      <div class="proj-tags"><span>React</span><span>Node.js</span></div>
+      <h3 class="proj-title">Google </h3>
+      <p class="proj-desc">A full-stack AI application built with Google’s Agent Development Kit, Vite/React, and Cloud Vertex AI. Engineered a hierarchical multi-agent system with dynamic intent routing that delegates tasks to specialized sub-agents—cutting end-to-end latency in half while maintaining sub-200ms API overhead across four live data providers on Google Cloud Run.</p>
+      <div class="proj-tags"><span>Agent Development Kit</span><span>React</span><span>Google Maps API</span><span>Gemini API</span><span>BigQuery</span><span>A2UI</span></div>
       <div class="proj-links">
         <button class="proj-btn" data-diary="diary-project2">✎ thoughts in my diary ♡</button>
       </div>
+    </article>
+
+    <article class="proj">
+      <div class="proj-top">
+        <!--<span class="proj-role">Software Engineer</span> -->
+        <span class="proj-date">June-August 2026</span>
+      </div>
+      <h3 class="proj-title">Reddit Verdict Classifier </h3>
+      <p class="proj-desc">Trained a Logistic Regression classifier on 11,662 Reddit posts using TF-IDF vectorization and bigram feature
+extraction, outperforming Naïve Bayes and Decision Trees with a 71% classification accuracy while evaluating
+performance across precision, recall, and F1-score.</p>
+      <div class="proj-tags"><span>Python</span><span>scikit-learn</span><span>Reddit API</span><span>Data Mining</span></div>
+      <div class="proj-links">
+  <a class="proj-btn" href="pdf/data_mining.pdf" target="_blank">~ read the paper here ~</a>
+</div>
+    </article>
+
+    <article class="proj">
+      <div class="proj-top">
+        <span class="proj-role">Front & Backend Engineer</span>
+        <span class="proj-date">October 2025 - May 2026 · Emory Hack4Impact</span>
+      </div>
+      <h3 class="proj-title">Odyssey</h3>
+      <!-- optional image: delete this line if you don't want one -->
+      <p class="proj-desc">Collaborated with a 6-person team to build an internal HR career portal for Odyssey Family Consulting, where I architected the security and media storage infrastructure. I implemented strict CORS policies, token-based authentication, and role-based access control across API endpoints to safeguard sensitive employee records for 45+ active users. To keep the platform fast and scalable, I also structured user image storage using Dockerized cloud buckets, cutting media processing overhead by 35% and noticeably speeding up profile render times across the app.</p>
+      <div class="proj-tags"><span>Next.js</span><span>Supabase</span><span>Prisma</span><span>TypeScript</span><span>daisyUI</span><span>Docker</span></div>
     </article>
 
   </div>
@@ -497,7 +531,7 @@ document.addEventListener('click',e=>{
     <div class="diary-card" id="diary-project1">
       <span class="stamp">notes ✿</span>
       <div class="date">le 16 novembre · personal website</div>
-        for this website i was heavily inspired by early 2000's korean web-browser social media cyworld! a lot of aspects of this website are also influenced by the internet era i grew up in, through that i decided to also build this website using simple html! a simple database is also displaying visitor count (want to display visitor comments as well!)
+        for this website i was heavily inspired by early 2000's korean web-browser social media cyworld & sayclub! a lot of aspects of this website are also influenced by the internet era i grew up in(e.g. girls go games), through that i decided to also build this website using simple html! a simple database is also displaying visitor count (i want to display visitor comments as well!). as you can see, you'll see a mix of both languages i'm currently learning! this is also another way for me to practice ^_^
       </div>
 
     <div class="diary-card" id="diary-project1">
@@ -508,21 +542,28 @@ document.addEventListener('click',e=>{
 
     <div class="diary-card" id="diary-project2">
       <span class="stamp">projet ✿</span>
-      <div class="date">le 2 octobre · Second Project</div>
-      More thoughts here ~
+      <div class="date">aug 1 · Google internship experience</div>
+      getting a google internship my sophomore summer was one of the most transformative experiences i've ever been through. going in, it was definitely tough as all of the tools used were completely new to me, like A2UI and the whole Google cloud console to be honest, i had never used it before. i am so incredibly grateful to have learned from wonderful engineers and created something i hope will last forever :). to chris and omi, you were the best managers ever! and to my mentor, i hope we'll stay in contact for a long time. i hope i can come back one day to you, Google!
+      (p.s., check out pics to see a picture of the google team i worked with :D!)
     </div>
 
   </div>
 </section>
 
         <!-- JUKEBOX -->
-        <section class="view" id="v-jukebox">
+        <section class="view" id="v-jukebox" style="min-height:400px">
+        
           <div class="sec-title" style="display:flex;align-items:center;gap:10px; color:#e8638f;">
               · Music I'm Listening to · 좋아하는 음악~!
             <a href="https://www.glitter-graphics.com" > </a><img src="https://dl2.glitter-graphics.net/pub/948/948532zr96alyx9q.gif" width=55 height=57 border=0></a>
-          </div> 
+          </div>
+          <p class="music-caption">click any song here or in the BGM player to listen! ♪</p> 
           <ul class="news" id="playlist"></ul>
-          <p style="font-size:15px;color:#b07a90">♪ 곡 이름을 누르면 BGM이 바뀌어요 (작은 칩튠 멜로디)</p>
+          <p style="font-size:15px;color:#b07a90">♪ 곡 이름을 누르면 BGM이 바뀌어요</p>
+
+          <a href="https://www.glitter-graphics.com" target="_blank" style="display:block;width:max-content;margin:60px auto 0;"> 
+        <img src="https://dl2.glitter-graphics.net/pub/1148/1148692hifh3l494y.gif" width="150" height="180" alt="" style="border:0;display:block;">
+          </a>
         </section>
 
         <!-- PHOTO -->
@@ -533,10 +574,13 @@ document.addEventListener('click',e=>{
   <div class="img" style="background:#ffe4ee"><img src="pics/arduino.jpg" alt=""></div>
   <p>arduino LED testing</p>
 </div>
-            <div class="polaroid" style="--r:2deg"><div class="img" style="background:#fff3c4">🥐</div><p>petit déjeuner</p></div>
+            <div class="polaroid" style="--r:2deg"><div class="img" style="background:#dff1fb"><img src="pics/google.jpeg" alt=""></div>
+  <p>intern @ Google summer 26'</p>
+</div>
             <div class="polaroid" style="--r:-1deg"><div class="img" style="background:#dff1fb">⛵</div><p>la Seine</p></div>
             <div class="polaroid" style="--r:3deg"><div class="img" style="background:#c9ecd9">🌷</div><p>le marché</p></div>
             <div class="polaroid" style="--r:-2deg"><div class="img" style="background:#ffe4ee">🍰</div><p>pâtisserie</p></div>
+            <div class="polaroid" style="--r:1deg"><div class="img" style="background:#efe4ff">🎨</div><p>Montmartre</p></div>
             <div class="polaroid" style="--r:1deg"><div class="img" style="background:#efe4ff">🎨</div><p>Montmartre</p></div>
           </div>
         </section>
@@ -577,14 +621,13 @@ document.addEventListener('click',e=>{
           <!-- ✏️ EDIT ME — corner image: change href (link) and src (image/GIF) -->
             <img src="media/girl.gif" alt="my corner image">
           </a>
-        </div>
-      </aside>
+        
     </div>
       </aside>
     </div>
-    <p class="footer-quote">내게로 오는 그 길에는 오직 <em>l'amour</em> 만 가지고 오면 됩니다 ♡</p>
+    <p class="footer-quote">무에서 유를 창조하는 <em>magie</em>, 그게 바로 제가 코드를 쓰는 이유입니다. ♡</p>
   </div>
-  <div class="statusbar"><span>🌐 완료</span><span>🌍 인터넷</span></div>
+  <div class="statusbar"><span>완료</span><span>인터넷</span></div>
 </div>
 
 <script>
@@ -632,8 +675,11 @@ setInterval(petal,700);
 
 /* ---------- BGM (real music files) ---------- */
 const SONGS=[
+  {t:'Closer - 송하예', src:'music/closer.mp3'},
   {t:'Skrr (Feat. Giselle) — HAON(김하온)', src:'music/SKRR-GISELLE.mp3'},
   {t:'Forever(약속) - 에스파(aespa)', src:'music/ForeverAespa.mp3'},
+  {t:'미행 (그림자: Shadow) - f(x)', src:'music/미행.mp3'},
+  {t: 'My Everything - KyoungSeo', src:'music/my-everything.mp3'}
 ];
 let si=0;
 const audio=new Audio(SONGS[0].src);
