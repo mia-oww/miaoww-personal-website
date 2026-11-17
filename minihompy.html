@@ -15,7 +15,7 @@
      If the image can't load, the pink polka-dot pattern shows instead.
      ============================================================ */
   :root{
-    --skin-image: url('whitebg.jpg');
+    --skin-image: url('media/whitebg.jpg');
     --skin-size: cover;        /* cover = fill the area | auto = tile/repeat it */
     --skin-repeat: no-repeat;  /* use repeat if you want it tiled */
     --pink:#f7a8c4; --pink-deep:#e8638f; --pink-soft:#ffe4ee; --cream:#fffaf3;
@@ -269,6 +269,10 @@
   .polaroid .img{height:220px;padding:12px}
 .polaroid .img img{width:100%;height:100%;object-fit:cover;display:block;border-radius:2px;
   box-shadow:0 1px 4px rgba(0,0,0,.12)}
+
+  .left{gap:6px}                       /* space between every item in the left panel (was 12px) */
+.name{margin-bottom:0}
+.ilchon-gif{margin:0 auto}           /* removes the extra space above the GIF */
 </style>
 
 </head>
@@ -331,7 +335,7 @@ document.addEventListener('click',e=>{
         <div class="avatar-box">
           <span class="bonjour">bonjour~</span>
           <!-- ✏️ EDIT ME — profile picture -->
-        <img id="minimi" src="Winter.jpeg" alt="my profile picture" class="profile-pic">
+        <img id="minimi" src="media/Winter.jpeg" alt="my profile picture" class="profile-pic">
         <span class="pic-caption">not me, aespa's winter!</span>
         </div>
         <div class="mood">TODAY IS..
@@ -339,7 +343,7 @@ document.addEventListener('click',e=>{
             <option>🎵 즐거움</option><option>🥐 배고픔</option><option>☕ 여유</option><option>💤 졸림</option><option>💗 설렘</option>
           </select>
         </div>
-        <img src="blinkiesCafe-JD.gif" alt="blinkies" width="200" height="30">
+        <img src="media/blinkiesCafe-JD.gif" alt="blinkies" width="200" height="30">
 <span class="fr">« la vie est belle, non? »</span></p>
         <div class="history">▸ Info & Links ▾</div>
         <div class="name">hi, i'm mia gomez!
@@ -526,7 +530,7 @@ document.addEventListener('click',e=>{
           <div class="sec-title">Photos · 사진첩</div>
           <div class="photos">
             <div class="polaroid" style="--r:-3deg">
-  <div class="img" style="background:#ffe4ee"><img src="arduino.jpg" alt=""></div>
+  <div class="img" style="background:#ffe4ee"><img src="pics/arduino.jpg" alt=""></div>
   <p>arduino LED testing</p>
 </div>
             <div class="polaroid" style="--r:2deg"><div class="img" style="background:#fff3c4">🥐</div><p>petit déjeuner</p></div>
@@ -571,7 +575,7 @@ document.addEventListener('click',e=>{
 
         <div class="girl">
           <!-- ✏️ EDIT ME — corner image: change href (link) and src (image/GIF) -->
-            <img src="girl.gif" alt="my corner image">
+            <img src="media/girl.gif" alt="my corner image">
           </a>
         </div>
       </aside>
@@ -628,8 +632,8 @@ setInterval(petal,700);
 
 /* ---------- BGM (real music files) ---------- */
 const SONGS=[
-  {t:'Skrr (Feat. Giselle) — HAON(김하온)', src:'SKRR-GISELLE.mp3'},
-  {t:'Forever(약속) - 에스파(aespa)', src:'ForeverAespa.mp3'},
+  {t:'Skrr (Feat. Giselle) — HAON(김하온)', src:'music/SKRR-GISELLE.mp3'},
+  {t:'Forever(약속) - 에스파(aespa)', src:'music/ForeverAespa.mp3'},
 ];
 let si=0;
 const audio=new Audio(SONGS[0].src);
