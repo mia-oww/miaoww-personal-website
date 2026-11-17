@@ -168,6 +168,8 @@
   .news-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   .sec-title{font-family:var(--hand);font-weight:700;font-size:19px;color:var(--sky-deep)}
   .sec-title small{font-family:var(--pixel);font-size:9px;color:#aaa;font-weight:normal;margin-left:4px;letter-spacing:1px}
+  
+  .sec-skills{font-family:var(--hand);font-weight:700;font-size:18px;color:#b07a90;margin-bottom:6px;padding-bottom:4px;border-bottom:1px dashed var(--line);text-align:center}
   .news li{list-style:none;font-size:17px;padding:1px 0;color:var(--ink);cursor:pointer}
   .news li::before{content:"· ";color:var(--pink-deep)}
   .news li:hover{color:var(--pink-deep)}
@@ -273,7 +275,25 @@
   .site-footer{position:absolute;bottom:-55px;left:50%;transform:translateX(-50%);z-index:20;
   display:flex;flex-direction:column;align-items:center;pointer-events:none}
   .site-footer a{pointer-events:auto}
-  
+
+  .side-deco{position:absolute;width:var(--deco-len);z-index:20;pointer-events:none;mix-blend-mode:multiply}
+:root{
+  --len-left:468px;  --ov-left:40px;
+  --len-right:510px; --ov-right:100px;  /* ✏️ right side */
+}
+
+.side-deco.left {width:var(--len-left)}
+.side-deco.right{width:var(--len-right)}
+
+.side-deco.left.upper {top:calc(50% - var(--len-left)/2  + var(--ov-left))}
+.side-deco.left.lower {top:calc(50% + var(--len-left)/2  - var(--ov-left))}
+.side-deco.right.upper{top:calc(50% - var(--len-right)/2 + var(--ov-right))}
+.side-deco.right.lower{top:calc(50% + var(--len-right)/2 - var(--ov-right))}
+
+.side-deco.left.upper {left:20px; transform:translate(-50%,-50%) rotate(-90deg)}
+.side-deco.left.lower {left:20px; transform:translate(-50%,-50%) rotate(90deg)}
+.side-deco.right.upper{right:20px;transform:translate(50%,-50%)  rotate(-90deg)}
+.side-deco.right.lower{right:20px;transform:translate(50%,-50%)  rotate(90deg)}
 
   @media (max-width:900px){
     .scallop{grid-template-columns:1fr}
@@ -355,6 +375,10 @@ document.addEventListener('click',e=>{
 
   <div class="stage">
     <!-- between binder and other thing-->
+     <img class="side-deco left  upper" src="https://dl5.glitter-graphics.net/pub/824/824595vgem2zpoof.gif" alt="">
+      <img class="side-deco left  lower" src="https://dl5.glitter-graphics.net/pub/824/824595vgem2zpoof.gif" alt="">
+      <img class="side-deco right upper" src="https://dl5.glitter-graphics.net/pub/824/824595vgem2zpoof.gif" alt="">
+      <img class="side-deco right lower" src="https://dl5.glitter-graphics.net/pub/824/824595vgem2zpoof.gif" alt="">
      <div class="site-header">
     <a href="https://www.glitter-graphics.com" target="_blank">
       <img src="https://dl4.glitter-graphics.net/pub/1247/1247634ugjywbxzzj.gif" width="450" height="98" alt="header" style="border:0;display:block;">
@@ -638,11 +662,11 @@ performance across precision, recall, and F1-score.</p>
         </div>
 
         <div class="bars">
-          <div class="row"><span>로맨틱</span><div class="bar"><i style="width:60%;background:#ef6f6f"></i></div><span class="num">96</span></div>
-          <div class="row"><span>파리지앵</span><div class="bar"><i style="width:75%;background:#7cc79c"></i></div><span class="num">106</span></div>
-          <div class="row"><span>러블리</span><div class="bar"><i style="width:92%;background:#5aa9d6"></i></div><span class="num">241</span></div>
-          <div class="row"><span>시크</span><div class="bar"><i style="width:38%;background:#777"></i></div><span class="num">67</span></div>
-          <div class="row"><span>달콤</span><div class="bar"><i style="width:84%;background:#f2c94c"></i></div><span class="num">196</span></div>
+          <div class="sec-skills">me! </div>
+          <div class="row"><span>comp sci</span><div class="bar"><i style="width:92%;background:#ef6f6f"></i></div><span class="num">241</span></div>
+          <div class="row"><span>fashion</span><div class="bar"><i style="width:60%;background:#5aa9d6"></i></div><span class="num">80</span></div>
+          <div class="row"><span>electronics</span><div class="bar"><i style="width:38%;background:#f2c94c"></i></div><span class="num">67</span></div>
+          <div class="row"><span>gaming</span><div class="bar"><i style="width:84%;background:#98db79"></i></div><span class="num">196</span></div>
         </div>
 
         <div class="quick">
