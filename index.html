@@ -259,6 +259,8 @@
 
   .statusbar{display:flex;justify-content:space-between;padding:3px 10px;font-family:var(--pixel);font-size:11px;background:#7fb0e6;border-top:1px solid #ccc;color:#ffffff;border-radius:0 0 4px 4px}
 
+  .see-all{font-family:var(--pixel);font-size:11px;color:var(--pink-deep);cursor:pointer;margin-top:4px}
+  .see-all:hover{text-decoration:underline}
   
 
   @media (max-width:900px){
@@ -412,10 +414,12 @@ document.addEventListener('click',e=>{
           </div>
 
           <div class="friends">
-            <div class="sec-title">What friends say<small>일촌평</small></div>
-            <p><b>수아</b> : 미아야 파리 사진 너무 이쁘다 ㅠㅠ 나도 데려가!! <span class="fr">— ta meilleure amie</span></p>
-            <p><b>Camille</b> : On se voit au café demain? ☕ <span class="fr">— (내일 카페에서 볼까?)</span></p>
-          </div>
+  <div class="sec-title">Most recent guests <small>방명록</small></div>
+  <div id="recentGuests">
+    <p style="font-size:16px;color:#b07a90">loading ~</p>
+  </div>
+  <p class="see-all" onclick="document.querySelector('#tabs [data-v=guest]').click()">→ see all & leave a note ♡</p>
+</div>
         </section>
 
         <!-- PROFILE -->
@@ -733,6 +737,16 @@ if(dotori) dotori.onclick=()=>{acorn++;document.getElementById('acorn').textCont
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmtDate=iso=>{const d=new Date(iso);return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`};
 
+function renderRecent(list){
+  const box=document.getElementById('recentGuests');
+  if(!box) return;
+  if(!list.length){ box.innerHTML='<p style="font-size:16px;color:#b07a90">no guests yet ~ be the first! ♡</p>'; return; }
+  box.innerHTML=list.slice(0,2).map(g=>
+    `<p><b>${esc(g.name)}</b> : ${esc(g.message)} <span class="fr">— ${fmtDate(g.created_at)}</span></p>`
+  ).join('');
+}
+
+
 function renderGB(list){
   const box=document.getElementById('gbList');
   if(!list.length){ box.innerHTML='<p style="font-size:16px;color:#b07a90">no messages yet ~ be the first! ♡</p>'; return; }
@@ -742,7 +756,7 @@ function renderGB(list){
 }
 
 async function loadGB(){
-  try{ renderGB(await rpc('get_comments')); }
+  try{ const list=await rpc('get_comments'); renderGB(list); renderRecent(list); }
   catch(e){ document.getElementById('gbList').innerHTML='<p style="font-size:16px;color:#b07a90">guestbook is sleeping right now ~ try again later</p>'; }
 }
 
